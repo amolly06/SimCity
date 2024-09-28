@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { createCamera } from './camera.js';
-import { createCity } from './city.js';
 
 export function createScene(){
     //Initial scene setup
@@ -13,11 +12,13 @@ export function createScene(){
     renderer.setSize(gameWindow.offsetWidth, gameWindow.offsetHeight);
     gameWindow.appendChild(renderer.domElement);
 
-    let meshes = [];
+    let terrain = [];
+    let buildings = [];
 
     function initialize(city){
         scene.clear();
-        meshes = [];
+        terrain = [];
+        buildings = [];
         for(let x = 0; x < city.size; x++){
             const column = [];
             for(let y = 0; y < city.size; y++){
@@ -28,23 +29,34 @@ export function createScene(){
                 mesh.position.set(x, -0.5, y);
                 scene.add(mesh);
                 column.push(mesh);
-
-                // Building Geometry
-                const tile = city.data[x][y];
-
-                if (tile.building === 'building') {
-                    const buildingGeometry = new THREE.BoxGeometry(1, 1, 1);
-                    const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0x777777 })
-                    const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
-                    buildingMesh.position.set(x, 0, y);
-                    scene.add(buildingMesh);
-                    column.push(buildingMesh);
-                }   
             }
-            meshes.push(column);
+            terrain.push(column);
+            buildings.push([...Array(city.size)]);
         }
 
         setupLights();
+    }
+
+    function update(city) {
+        for(let x = 0; x < city.size; x++){
+            for(let y = 0; y < city.size; y++){
+                const tile = city.data[x][y];
+                if (tile.building && tile.building.startsWith('building')) {
+                    const height = Number(tile.building.slice(-1));
+                    const buildingGeometry = new THREE.BoxGeometry(1, height, 1);
+                    const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0x777777 })
+                    const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
+                    buildingMesh.position.set(x, height / 2, y);
+
+                    if (buildings[x][y]) {
+                        scene.remove(buildings[x][y]);
+                    }
+
+                    scene.add(buildingMesh);
+                    buildings[x][y] = buildingMesh;
+                }   
+            }
+        }
     }
 
     function setupLights() {
@@ -88,6 +100,7 @@ export function createScene(){
 
     return{
         initialize,
+        update,
         start,
         stop,
         onMouseDown,
