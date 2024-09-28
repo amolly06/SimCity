@@ -3,33 +3,33 @@ import * as THREE from 'three'
 const assets = {
     'grass': (x, y) => {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshLambertMaterial({ color: 0x00aa00 })
+        const material = new THREE.MeshLambertMaterial({ color: 0x339933 })
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.userData = { id: 'grass' };
+        mesh.userData = { id: 'grass', x, y };
         mesh.position.set(x, -0.5, y);
         return mesh
     },
     'building-1': (x, y) => {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshLambertMaterial({ color: 0x777777 })
+        const material = new THREE.MeshLambertMaterial({ color: 0xbb5555 })
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.userData = { id: 'building-1' };
+        mesh.userData = { id: 'building-1', x, y };
         mesh.position.set(x, 0.5, y);
         return mesh
     },
     'building-2': (x, y) => {
         const geometry = new THREE.BoxGeometry(1, 2, 1);
-        const material = new THREE.MeshLambertMaterial({ color: 0x777777 })
+        const material = new THREE.MeshLambertMaterial({ color: 0xbbbb55 })
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.userData = { id: 'building-2' };
+        mesh.userData = { id: 'building-2', x, y };
         mesh.position.set(x, 1, y);
         return mesh
     },
     'building-3': (x, y) => {
         const geometry = new THREE.BoxGeometry(1, 3, 1);
-        const material = new THREE.MeshLambertMaterial({ color: 0x777777 })
+        const material = new THREE.MeshLambertMaterial({ color: 0x5555bb })
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.userData = { id: 'building-3' };
+        mesh.userData = { id: 'building-3', x, y };
         mesh.position.set(x, 1.5, y);
         return mesh
     }

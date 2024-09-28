@@ -13,8 +13,15 @@ export function createScene(){
     renderer.setSize(gameWindow.offsetWidth, gameWindow.offsetHeight);
     gameWindow.appendChild(renderer.domElement);
 
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let selectedObject = undefined;
+
     let terrain = [];
     let buildings = [];
+
+    let onObjectSelected = undefined;
+
 
     function initialize(city){
         scene.clear();
@@ -58,10 +65,10 @@ export function createScene(){
 
     function setupLights() {
         const lights = [
-            new THREE.AmbientLight(0xffffff, 0.2),
-            new THREE.DirectionalLight(0xffffff, 0.3),
-            new THREE.DirectionalLight(0xffffff, 0.3),
-            new THREE.DirectionalLight(0xffffff, 0.3)
+            new THREE.AmbientLight(0xffffff, 1.0),
+            new THREE.DirectionalLight(0xffffff, 1.5),
+            new THREE.DirectionalLight(0xffffff, 1.5),
+            new THREE.DirectionalLight(0xffffff, 1.5)
         ];
 
         lights[1].position.set(0, 1, 0);
@@ -85,6 +92,24 @@ export function createScene(){
 
     function onMouseDown(event){
         camera.onMouseDown(event);
+
+        mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+        mouse.y = -(event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera.camera);
+
+        let intersections = raycaster.intersectObjects(scene.children, false);
+
+        if (intersections.length > 0) {
+            if (selectedObject) selectedObject.material.emissive.setHex(0);
+            selectedObject = intersections[0].object;
+            selectedObject.material.emissive.setHex(0x555555);
+            console.log(selectedObject.userData);
+
+            if (this.onObjectSelected) {
+                this.onObjectSelected(selectedObject);
+            }
+        }
     }
 
     function onMouseUp(event){
@@ -96,6 +121,7 @@ export function createScene(){
     }
 
     return{
+        onObjectSelected,
         initialize,
         update,
         start,
