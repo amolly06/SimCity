@@ -53,7 +53,7 @@ export function createScene(){
                     buildings[x][y] = undefined;
                 }
 
-                if (newBuildingId !== currentBuildingId) {
+                if (newBuildingId && newBuildingId !== currentBuildingId) {
                     scene.remove(buildings[x][y]);
                     buildings[x][y] = createAssetInstance(newBuildingId, x, y);
                     scene.add(buildings[x][y]);
