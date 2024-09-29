@@ -35,9 +35,6 @@ function createTile(x, y){
         x,
         y,
         terrainId: 'grass',
-        buildingId: undefined,
-        update() {
-            
-        }
+        building: undefined,
     };
 }
