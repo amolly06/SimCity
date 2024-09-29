@@ -1,10 +1,10 @@
 # SimCity
 
-## What is this?
+## Description
 
 **CitySim.js** is an ongoing project aimed at creating a SimCity clone using **Three.js**. The project is still under active development and is a fun attempt to simulate city-building mechanics within a 3D environment.
 
-## How do I run this locally?
+## How to run locally?
 
 To run this project on your local machine, follow these steps:
 
@@ -16,7 +16,7 @@ To run this project on your local machine, follow these steps:
 npm run dev
 ```
 
-# How did you make this?
+## Technologies Used:
 This project is built using the following technologies:
 
 - Three.js: A powerful JavaScript library for rendering 3D graphics in the browser, which forms the core of the game’s visuals.
@@ -25,3 +25,5 @@ This project is built using the following technologies:
 - Webpack: For bundling the project’s modules and assets.
 - Node.js: Used to manage dependencies and run a local development server.
 All of these technologies come together to create a dynamic and interactive 3D city-building simulation in the browser.
+
+
